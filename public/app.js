@@ -17,6 +17,7 @@
     play: "屋内あそび場",
     sightseeing: "観光スポット"
   };
+  const allowedCategories = new Set(Object.keys(categoryLabels));
 
   const els = {
     areaSelect: document.getElementById("areaSelect"),
@@ -39,7 +40,9 @@
   }
 
   function getAreaPlaces() {
-    return places.filter((place) => place.areaId === state.areaId);
+    return places.filter(
+      (place) => place.areaId === state.areaId && allowedCategories.has(place.category)
+    );
   }
 
   function uniqueValues(items, key) {
