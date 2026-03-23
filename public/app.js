@@ -14,7 +14,8 @@
   };
 
   const categoryLabels = {
-    play: "屋内あそび場"
+    play: "屋内あそび場",
+    sightseeing: "観光スポット"
   };
 
   const els = {
@@ -117,6 +118,8 @@
 
     if (place.category === "play") {
       score += 30;
+    } else if (place.category === "sightseeing") {
+      score += 22;
     } else if (place.category === "park" || place.category === "community") {
       score += 18;
     } else if (place.category === "school") {
@@ -162,30 +165,31 @@
   function getRecommendationText(items) {
     const currentArea = getCurrentArea();
     const areaName = currentArea ? currentArea.shortName : "このエリア";
+    const categoryName = categoryLabels[state.category] || "スポット";
 
     if (state.age === "") {
-      return `${areaName}を初期表示しています。年齢を入れると、その都市の遊び場をおすすめ順に並べます。`;
+      return `${areaName}を初期表示しています。年齢を入れると、その都市の${categoryName}をおすすめ順に並べます。`;
     }
 
     const topPicks = items
-      .filter((item) => item.category === "play" && item.recommendationScore >= 100)
+      .filter((item) => item.category === state.category && item.recommendationScore >= 100)
       .slice(0, 3)
       .map((item) => item.name);
 
     if (!topPicks.length) {
       const fallbackPicks = items
-        .filter((item) => item.category === "play")
+        .filter((item) => item.category === state.category)
         .slice(0, 3)
         .map((item) => item.name);
 
       if (fallbackPicks.length) {
-        return `${state.age}歳向けに近い${areaName}の遊び場: ${fallbackPicks.join(" / ")}`;
+        return `${state.age}歳向けに近い${areaName}の${categoryName}: ${fallbackPicks.join(" / ")}`;
       }
 
       return `${state.age}歳向けに近い${areaName}の候補を表示しています。`;
     }
 
-    return `${state.age}歳向けの${areaName}おすすめ遊び場: ${topPicks.join(" / ")}`;
+    return `${state.age}歳向けの${areaName}おすすめ${categoryName}: ${topPicks.join(" / ")}`;
   }
 
   function getGoogleMapsUrl(place) {

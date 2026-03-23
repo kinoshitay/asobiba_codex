@@ -302,6 +302,10 @@ h2 {
   background: var(--play);
 }
 
+.badge[data-category="sightseeing"] {
+  background: #3f7f89;
+}
+
 .badge[data-category="community"] {
   background: #8f68cc;
 }
