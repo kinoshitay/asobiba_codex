@@ -193,6 +193,11 @@
     return `${state.age}歳向けの${areaName}おすすめ遊び場: ${topPicks.join(" / ")}`;
   }
 
+  function getGoogleMapsUrl(place) {
+    const query = [place.name, place.address, getCurrentArea()?.name].filter(Boolean).join(", ");
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  }
+
   function renderPlaces(items) {
     els.placeList.innerHTML = "";
 
@@ -208,6 +213,7 @@
     items.forEach((place) => {
       const card = document.createElement("article");
       const isRecommended = state.age !== "" && place.recommendationScore >= 100;
+      const googleMapsUrl = getGoogleMapsUrl(place);
       card.className = `place-card${isRecommended ? " is-recommended" : ""}`;
       card.innerHTML = `
         <div class="place-card__top">
@@ -226,6 +232,7 @@
           <span>対象: ${place.ageFocus}</span>
           <span>メモ: ${place.notes}</span>
         </div>
+        <a class="map-link" href="${googleMapsUrl}" target="_blank" rel="noreferrer">Google Mapsで開く</a>
       `;
       els.placeList.appendChild(card);
     });
