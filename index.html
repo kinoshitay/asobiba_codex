@@ -50,6 +50,17 @@
               type="search"
               placeholder="例: 病院、2区、遊び場"
             />
+            <label class="search-label search-label--spaced" for="ageInput">子どもの年齢</label>
+            <input
+              id="ageInput"
+              class="search-input"
+              type="number"
+              min="0"
+              max="18"
+              step="1"
+              placeholder="例: 4"
+            />
+            <p id="ageRecommendation" class="inline-note"></p>
             <div id="categoryFilters" class="chip-group"></div>
             <div id="districtFilters" class="chip-group chip-group--muted"></div>
           </section>

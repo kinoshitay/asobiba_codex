@@ -5,6 +5,7 @@
 
   const state = {
     query: "",
+    age: "",
     category: "all",
     district: "all",
     map: null,
@@ -22,6 +23,8 @@
 
   const els = {
     searchInput: document.getElementById("searchInput"),
+    ageInput: document.getElementById("ageInput"),
+    ageRecommendation: document.getElementById("ageRecommendation"),
     categoryFilters: document.getElementById("categoryFilters"),
     districtFilters: document.getElementById("districtFilters"),
     placeList: document.getElementById("placeList"),
@@ -76,7 +79,10 @@
 
   function getFilteredPlaces() {
     const normalized = state.query.trim().toLowerCase();
-    return places.filter((place) => {
+    const age = Number(state.age);
+
+    return places
+      .filter((place) => {
       const matchesQuery =
         !normalized ||
         [place.name, place.categoryLabel, place.district, place.description]
@@ -88,7 +94,64 @@
       const matchesDistrict =
         state.district === "all" || place.district === state.district;
       return matchesQuery && matchesCategory && matchesDistrict;
-    });
+      })
+      .map((place) => ({
+        ...place,
+        recommendationScore: getRecommendationScore(place, age),
+      }))
+      .sort((a, b) => b.recommendationScore - a.recommendationScore);
+  }
+
+  function parseAgeFocus(ageFocus) {
+    const match = String(ageFocus).match(/(\d+)\s*-\s*(\d+)/);
+    if (!match) {
+      return null;
+    }
+
+    return {
+      min: Number(match[1]),
+      max: Number(match[2]),
+    };
+  }
+
+  function getRecommendationScore(place, age) {
+    let score = 0;
+    const ageRange = parseAgeFocus(place.ageFocus);
+
+    if (!Number.isNaN(age) && state.age !== "") {
+      if (ageRange && age >= ageRange.min && age <= ageRange.max) {
+        score += 100;
+      } else if (ageRange) {
+        score -= 15;
+      }
+    }
+
+    if (place.category === "play") {
+      score += 30;
+    } else if (place.category === "park" || place.category === "community") {
+      score += 18;
+    } else if (place.category === "school") {
+      score += 8;
+    }
+
+    return score;
+  }
+
+  function getRecommendationText(items) {
+    if (state.age === "") {
+      return "年齢を入れると、対象年齢に合う遊び場を上におすすめ表示します。";
+    }
+
+    const topPicks = items
+      .filter((item) => item.recommendationScore >= 100)
+      .slice(0, 3)
+      .map((item) => item.name);
+
+    if (!topPicks.length) {
+      return `${state.age}歳向けに近い候補を表示しています。`;
+    }
+
+    return `${state.age}歳向けのおすすめ: ${topPicks.join(" / ")}`;
   }
 
   function renderPlaces(items) {
@@ -105,7 +168,8 @@
 
     items.forEach((place) => {
       const card = document.createElement("article");
-      card.className = "place-card";
+      const isRecommended = state.age !== "" && place.recommendationScore >= 100;
+      card.className = `place-card${isRecommended ? " is-recommended" : ""}`;
       card.innerHTML = `
         <div class="place-card__top">
           <div>
@@ -117,6 +181,7 @@
           </div>
           <span class="badge" data-category="${place.category}">${place.categoryLabel}</span>
         </div>
+        ${isRecommended ? '<span class="recommendation-tag">この年齢におすすめ</span>' : ""}
         <p class="place-card__description">${place.description}</p>
         <div class="place-card__meta">
           <span>対象: ${place.ageFocus}</span>
@@ -134,6 +199,7 @@
     );
     els.placeCount.textContent = String(items.length);
     els.resultSummary.textContent = `${items.length}件を表示中`;
+    els.ageRecommendation.textContent = getRecommendationText(items);
   }
 
   function clearMarkers() {
@@ -227,6 +293,11 @@
 
   els.searchInput.addEventListener("input", (event) => {
     state.query = event.target.value;
+    render();
+  });
+
+  els.ageInput.addEventListener("input", (event) => {
+    state.age = event.target.value;
     render();
   });
 

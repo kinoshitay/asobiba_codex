@@ -148,6 +148,10 @@ h2 {
   font-weight: 700;
 }
 
+.search-label--spaced {
+  margin-top: 16px;
+}
+
 .search-input {
   width: 100%;
   border: 1px solid rgba(125, 87, 38, 0.18);
@@ -240,6 +244,11 @@ h2 {
   gap: 10px;
 }
 
+.place-card.is-recommended {
+  border-color: rgba(239, 108, 51, 0.42);
+  box-shadow: 0 16px 36px rgba(239, 108, 51, 0.12);
+}
+
 .place-card__top {
   display: flex;
   justify-content: space-between;
@@ -292,6 +301,17 @@ h2 {
 .place-card__description {
   margin: 0;
   font-size: 0.95rem;
+}
+
+.recommendation-tag {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(239, 108, 51, 0.12);
+  color: var(--brand-deep);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .empty-state {
