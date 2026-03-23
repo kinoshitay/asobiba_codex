@@ -123,8 +123,8 @@ window.HCMC_PARENTING_PLACES = [
   {
     areaId: "hcmc",
     name: "The Snap Cafe",
-    category: "community",
-    categoryLabel: "コミュニティ",
+    category: "play",
+    categoryLabel: "屋内あそび場",
     district: "District 2",
     address: "32 Tran Ngoc Dien, Thao Dien",
     description: "プレイエリア付きで親子が集まりやすい定番カフェ。",
@@ -132,6 +132,45 @@ window.HCMC_PARENTING_PLACES = [
     notes: "平日昼は比較的落ち着くことが多い",
     lat: 10.8042,
     lng: 106.7352
+  },
+  {
+    areaId: "hcmc",
+    name: "Snow Town Saigon",
+    category: "play",
+    categoryLabel: "屋内あそび場",
+    district: "Thu Duc",
+    address: "125 Dong Van Cong, Thanh My Loi",
+    description: "雪遊びとキッズプレイエリアを組み合わせた大型屋内スポット。",
+    ageFocus: "3-12歳",
+    notes: "週末は早めの時間帯が動きやすい",
+    lat: 10.7708,
+    lng: 106.7574
+  },
+  {
+    areaId: "hcmc",
+    name: "Ccomaya Kids Cafe",
+    category: "play",
+    categoryLabel: "屋内あそび場",
+    district: "District 2",
+    address: "No. 9, Street No. 6, Thao Dien",
+    description: "30以上の遊びゾーンがあるプレイカフェ。未就学児とも相性が良いです。",
+    ageFocus: "1-8歳",
+    notes: "Thao Dienでの定番候補",
+    lat: 10.8054,
+    lng: 106.7391
+  },
+  {
+    areaId: "hcmc",
+    name: "Bama Kids Cafe",
+    category: "play",
+    categoryLabel: "屋内あそび場",
+    district: "District 2",
+    address: "41 Thai Ly, Thao Dien",
+    description: "ベビー向けと幼児向けの遊び場が分かれていて、小さい子でも使いやすいプレイカフェ。",
+    ageFocus: "0-8歳",
+    notes: "小さめの子ども向けに見やすい",
+    lat: 10.8059,
+    lng: 106.7398
   },
   {
     areaId: "hcmc",
