@@ -158,6 +158,7 @@ h2 {
   border-radius: 999px;
   padding: 14px 16px;
   font: inherit;
+  min-height: 52px;
   background: rgba(255, 255, 255, 0.9);
 }
 
@@ -178,6 +179,7 @@ h2 {
   border-radius: 999px;
   padding: 10px 14px;
   font: inherit;
+  line-height: 1.2;
   cursor: pointer;
   transition: 0.2s ease;
 }
@@ -216,6 +218,7 @@ h2 {
 }
 
 .map-canvas {
+  min-height: 420px;
   min-height: 100%;
   border-radius: 24px;
   overflow: hidden;
@@ -307,6 +310,7 @@ h2 {
   display: grid;
   gap: 6px;
   font-size: 0.94rem;
+  word-break: break-word;
 }
 
 .place-card__description {
@@ -362,7 +366,7 @@ h2 {
   }
 
   .map-canvas {
-    min-height: 380px;
+    min-height: 360px;
   }
 }
 
@@ -370,6 +374,33 @@ h2 {
   .page-shell {
     width: min(100% - 18px, 1320px);
     padding-top: 18px;
+  }
+
+  .hero {
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 9vw, 2.4rem);
+    line-height: 1.04;
+  }
+
+  h2 {
+    font-size: 1.28rem;
+  }
+
+  .hero__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 14px 12px;
+  }
+
+  .stat-card strong {
+    font-size: 1.35rem;
   }
 
   .hero__copy,
@@ -383,5 +414,56 @@ h2 {
 
   .place-list {
     grid-template-columns: 1fr;
+  }
+
+  .map-panel__header,
+  .list-panel__header,
+  .place-card__top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .map-status,
+  .result-summary {
+    font-size: 0.88rem;
+  }
+
+  .chip-group {
+    gap: 8px;
+  }
+
+  .chip {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+
+  .map-canvas,
+  .map-canvas .leaflet-container,
+  .map-placeholder {
+    min-height: 300px;
+  }
+
+  .place-card {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .place-card h3 {
+    font-size: 1.08rem;
+  }
+
+  .map-link {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .chip {
+    width: 100%;
+    justify-content: center;
   }
 }
