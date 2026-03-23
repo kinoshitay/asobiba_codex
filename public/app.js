@@ -99,7 +99,17 @@
         ...place,
         recommendationScore: getRecommendationScore(place, age),
       }))
-      .sort((a, b) => b.recommendationScore - a.recommendationScore);
+      .sort((a, b) => {
+        const playPriority = state.age !== ""
+          ? Number(b.category === "play") - Number(a.category === "play")
+          : 0;
+
+        if (playPriority !== 0) {
+          return playPriority;
+        }
+
+        return b.recommendationScore - a.recommendationScore;
+      });
   }
 
   function parseAgeFocus(ageFocus) {
@@ -143,15 +153,24 @@
     }
 
     const topPicks = items
-      .filter((item) => item.recommendationScore >= 100)
+      .filter((item) => item.category === "play" && item.recommendationScore >= 100)
       .slice(0, 3)
       .map((item) => item.name);
 
     if (!topPicks.length) {
+      const fallbackPicks = items
+        .filter((item) => item.category === "play")
+        .slice(0, 3)
+        .map((item) => item.name);
+
+      if (fallbackPicks.length) {
+        return `${state.age}歳向けに近い遊び場: ${fallbackPicks.join(" / ")}`;
+      }
+
       return `${state.age}歳向けに近い候補を表示しています。`;
     }
 
-    return `${state.age}歳向けのおすすめ: ${topPicks.join(" / ")}`;
+    return `${state.age}歳向けのおすすめ遊び場: ${topPicks.join(" / ")}`;
   }
 
   function renderPlaces(items) {
