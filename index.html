@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ho Chi Minh Childcare Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./public/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero__copy">
+          <p class="eyebrow">Ho Chi Minh City Family Guide</p>
+          <h1>ホーチミンの子育てマップ</h1>
+          <p class="hero__description">
+            公園、病院、インターナショナルスクール、屋内あそび場などを
+            1つにまとめたスターター地図です。Google Maps APIキーがある場合は地図表示、
+            ない場合でもリストで使えます。
+          </p>
+        </div>
+        <div class="hero__stats">
+          <div class="stat-card">
+            <span class="stat-card__label">カテゴリ</span>
+            <strong id="categoryCount">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__label">掲載スポット</span>
+            <strong id="placeCount">0</strong>
+          </div>
+          <div class="stat-card">
+            <span class="stat-card__label">地図モード</span>
+            <strong id="mapMode">List</strong>
+          </div>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="sidebar">
+          <section class="panel">
+            <label class="search-label" for="searchInput">検索</label>
+            <input
+              id="searchInput"
+              class="search-input"
+              type="search"
+              placeholder="例: 病院、2区、遊び場"
+            />
+            <div id="categoryFilters" class="chip-group"></div>
+            <div id="districtFilters" class="chip-group chip-group--muted"></div>
+          </section>
+
+          <section class="panel panel--legend">
+            <h2>使い方</h2>
+            <p>
+              まずはカテゴリで絞り込み、次に地区で狭めるのがおすすめです。
+              Google Maps APIキーを設定すると右側に地図が表示されます。
+            </p>
+            <p class="inline-note">
+              APIキーは `localStorage.setItem("googleMapsApiKey", "YOUR_KEY")`
+              で追加できます。
+            </p>
+          </section>
+        </aside>
+
+        <section class="content">
+          <div class="map-panel">
+            <div class="map-panel__header">
+              <div>
+                <p class="eyebrow">Map</p>
+                <h2>Family Spots</h2>
+              </div>
+              <p id="mapStatus" class="map-status"></p>
+            </div>
+            <div id="mapCanvas" class="map-canvas">
+              <div class="map-placeholder">
+                <strong>Google Maps 未接続</strong>
+                <p>
+                  APIキーを入れると、ここにホーチミンの子育てスポットをピン表示します。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-panel">
+            <div class="list-panel__header">
+              <div>
+                <p class="eyebrow">Places</p>
+                <h2>おすすめスポット</h2>
+              </div>
+              <p id="resultSummary" class="result-summary"></p>
+            </div>
+            <div id="placeList" class="place-list"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./data/places.js"></script>
+    <script src="./public/app.js"></script>
+  </body>
+</html>
