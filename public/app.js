@@ -5,7 +5,7 @@
 
   const state = {
     query: "",
-    age: "",
+    age: "4",
     areaId: defaultAreaId,
     category: "all",
     district: "all",
