@@ -7,19 +7,14 @@
     query: "",
     age: "4",
     areaId: defaultAreaId,
-    category: "all",
+    category: "play",
     district: "all",
     map: null,
     markers: []
   };
 
   const categoryLabels = {
-    all: "すべて",
-    park: "公園",
-    school: "学校",
-    hospital: "病院",
-    play: "屋内あそび場",
-    community: "コミュニティ"
+    play: "屋内あそび場"
   };
 
   const els = {
@@ -242,7 +237,7 @@
     const currentArea = getCurrentArea();
     const categories = new Set(items.map((item) => item.category));
     els.categoryCount.textContent = String(
-      state.category === "all" ? Object.keys(categoryLabels).length - 1 : categories.size
+      categories.size || 1
     );
     els.placeCount.textContent = String(items.length);
     els.resultSummary.textContent = `${currentArea ? currentArea.shortName : ""}で${items.length}件を表示中`;
