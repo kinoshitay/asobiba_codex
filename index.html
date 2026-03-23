@@ -16,12 +16,11 @@
     <div class="page-shell">
       <header class="hero">
         <div class="hero__copy">
-          <p class="eyebrow">Ho Chi Minh City Family Guide</p>
-          <h1>ホーチミンの子育てマップ</h1>
+          <p class="eyebrow">Global Family Guide</p>
+          <h1>世界で使える子育てマップ</h1>
           <p class="hero__description">
-            公園、病院、インターナショナルスクール、屋内あそび場などを
-            1つにまとめたスターター地図です。Google Maps APIキーがある場合は地図表示、
-            ない場合でもリストで使えます。
+            世界の主要都市で、公園、病院、学校、屋内あそび場をまとめて見られる地図です。
+            初期表示はホーチミンで、エリアを切り替えるとその都市向けの候補に切り替わります。
           </p>
         </div>
         <div class="hero__stats">
@@ -43,12 +42,14 @@
       <main class="layout">
         <aside class="sidebar">
           <section class="panel">
+            <label class="search-label" for="areaSelect">エリア</label>
+            <select id="areaSelect" class="search-input search-select"></select>
             <label class="search-label" for="searchInput">検索</label>
             <input
               id="searchInput"
               class="search-input"
               type="search"
-              placeholder="例: 病院、2区、遊び場"
+              placeholder="例: 病院、遊び場、district"
             />
             <label class="search-label search-label--spaced" for="ageInput">子どもの年齢</label>
             <input
@@ -69,7 +70,7 @@
             <h2>使い方</h2>
             <p>
               まずはカテゴリで絞り込み、次に地区で狭めるのがおすすめです。
-              Google Maps APIキーを設定すると右側に地図が表示されます。
+              都市を変えると一覧と地図の中心が切り替わります。Google Maps APIキーを設定すると右側に地図が表示されます。
             </p>
             <p class="inline-note">
               APIキーは `localStorage.setItem("googleMapsApiKey", "YOUR_KEY")`

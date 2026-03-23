@@ -1,7 +1,49 @@
-window.HCMC_PARENTING_MAP = window.HCMC_PARENTING_MAP || {};
+window.HCMC_PARENTING_MAP = {
+  defaultAreaId: "hcmc",
+  googleMapsApiKey: ""
+};
+
+window.HCMC_PARENTING_AREAS = [
+  {
+    id: "hcmc",
+    name: "Ho Chi Minh City, Vietnam",
+    shortName: "ホーチミン",
+    center: { lat: 10.7769, lng: 106.7009 },
+    zoom: 11
+  },
+  {
+    id: "tokyo",
+    name: "Tokyo, Japan",
+    shortName: "東京",
+    center: { lat: 35.6762, lng: 139.6503 },
+    zoom: 11
+  },
+  {
+    id: "singapore",
+    name: "Singapore",
+    shortName: "シンガポール",
+    center: { lat: 1.3521, lng: 103.8198 },
+    zoom: 12
+  },
+  {
+    id: "london",
+    name: "London, United Kingdom",
+    shortName: "ロンドン",
+    center: { lat: 51.5072, lng: -0.1276 },
+    zoom: 11
+  },
+  {
+    id: "new-york",
+    name: "New York City, USA",
+    shortName: "ニューヨーク",
+    center: { lat: 40.7128, lng: -74.0060 },
+    zoom: 11
+  }
+];
 
 window.HCMC_PARENTING_PLACES = [
   {
+    areaId: "hcmc",
     name: "Thao Cam Vien Saigon",
     category: "park",
     categoryLabel: "公園",
@@ -14,6 +56,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7054
   },
   {
+    areaId: "hcmc",
     name: "Tao Dan Park",
     category: "park",
     categoryLabel: "公園",
@@ -26,6 +69,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.6925
   },
   {
+    areaId: "hcmc",
     name: "Vinmec Central Park International Hospital",
     category: "hospital",
     categoryLabel: "病院",
@@ -38,6 +82,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7218
   },
   {
+    areaId: "hcmc",
     name: "Children's Hospital 2",
     category: "hospital",
     categoryLabel: "病院",
@@ -50,6 +95,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7058
   },
   {
+    areaId: "hcmc",
     name: "FV Hospital",
     category: "hospital",
     categoryLabel: "病院",
@@ -62,6 +108,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7221
   },
   {
+    areaId: "hcmc",
     name: "British International School HCMC",
     category: "school",
     categoryLabel: "学校",
@@ -74,30 +121,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7369
   },
   {
-    name: "European International School",
-    category: "school",
-    categoryLabel: "学校",
-    district: "District 2",
-    address: "730 F-G-K Le Van Mien, Thao Dien",
-    description: "幼少期からの国際教育候補として比較されやすい学校です。",
-    ageFocus: "2-18歳",
-    notes: "説明会の開催確認推奨",
-    lat: 10.8068,
-    lng: 106.7344
-  },
-  {
-    name: "ISHCMC American Academy",
-    category: "school",
-    categoryLabel: "学校",
-    district: "District 7",
-    address: "Block 2B-4, Tan Phu",
-    description: "南側エリアで候補に入りやすい国際学校。",
-    ageFocus: "3-18歳",
-    notes: "District 7居住と相性が良い",
-    lat: 10.7314,
-    lng: 106.7311
-  },
-  {
+    areaId: "hcmc",
     name: "The Snap Cafe",
     category: "community",
     categoryLabel: "コミュニティ",
@@ -110,6 +134,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7352
   },
   {
+    areaId: "hcmc",
     name: "Crescent Mall",
     category: "play",
     categoryLabel: "屋内あそび場",
@@ -122,6 +147,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7189
   },
   {
+    areaId: "hcmc",
     name: "TiNiWorld Nowzone",
     category: "play",
     categoryLabel: "屋内あそび場",
@@ -134,18 +160,7 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.6839
   },
   {
-    name: "Sala Park",
-    category: "park",
-    categoryLabel: "公園",
-    district: "Thu Duc",
-    address: "Mai Chi Tho, An Loi Dong",
-    description: "広めの空間で走り回りやすく、新しい住宅エリアとの相性が良い公園。",
-    ageFocus: "1-10歳",
-    notes: "夕方の散歩向き",
-    lat: 10.7816,
-    lng: 106.7297
-  },
-  {
+    areaId: "hcmc",
     name: "Vincom Mega Mall Thao Dien",
     category: "play",
     categoryLabel: "屋内あそび場",
@@ -158,27 +173,133 @@ window.HCMC_PARENTING_PLACES = [
     lng: 106.7314
   },
   {
-    name: "Saigon South International School",
-    category: "school",
-    categoryLabel: "学校",
-    district: "District 7",
-    address: "78 Nguyen Duc Canh, Tan Phong",
-    description: "南側エリアの代表的なインターナショナルスクールの1つ。",
-    ageFocus: "3-18歳",
-    notes: "送迎時間帯の交通確認推奨",
-    lat: 10.7306,
-    lng: 106.7068
+    areaId: "tokyo",
+    name: "Ueno Zoo",
+    category: "park",
+    categoryLabel: "公園",
+    district: "Taito",
+    address: "9-83 Uenokoen, Taito City",
+    description: "動物園と公園が組み合わさった、定番の週末おでかけ先。",
+    ageFocus: "1-10歳",
+    notes: "朝の入園が動きやすい",
+    lat: 35.7167,
+    lng: 139.7711
   },
   {
-    name: "Vietnam National University Book Street",
-    category: "community",
-    categoryLabel: "コミュニティ",
-    district: "District 1",
-    address: "Nguyen Van Binh, Ben Nghe",
-    description: "絵本やイベントに触れやすい、親子のおでかけ候補。",
-    ageFocus: "3-12歳",
-    notes: "短時間のおでかけ向き",
-    lat: 10.7795,
-    lng: 106.7025
+    areaId: "tokyo",
+    name: "Asobono!",
+    category: "play",
+    categoryLabel: "屋内あそび場",
+    district: "Bunkyo",
+    address: "1-3-61 Koraku, Tokyo Dome City",
+    description: "雨の日でも使いやすい大型屋内プレイスポット。",
+    ageFocus: "0-10歳",
+    notes: "未就学児にも人気",
+    lat: 35.7057,
+    lng: 139.7528
+  },
+  {
+    areaId: "tokyo",
+    name: "National Center for Child Health and Development",
+    category: "hospital",
+    categoryLabel: "病院",
+    district: "Setagaya",
+    address: "2-10-1 Okura, Setagaya City",
+    description: "小児医療の拠点として知られる病院。",
+    ageFocus: "0-15歳",
+    notes: "専門外来の確認推奨",
+    lat: 35.6472,
+    lng: 139.6231
+  },
+  {
+    areaId: "singapore",
+    name: "Jacob Ballas Children's Garden",
+    category: "park",
+    categoryLabel: "公園",
+    district: "Bukit Timah",
+    address: "481 Bukit Timah Rd",
+    description: "子ども向けに設計された自然体験型ガーデン。",
+    ageFocus: "1-12歳",
+    notes: "暑い日は朝がおすすめ",
+    lat: 1.3151,
+    lng: 103.8162
+  },
+  {
+    areaId: "singapore",
+    name: "Kiztopia Marina Square",
+    category: "play",
+    categoryLabel: "屋内あそび場",
+    district: "Marina Centre",
+    address: "6 Raffles Blvd, Marina Square",
+    description: "年齢別ゾーンが使いやすい大型屋内遊び場。",
+    ageFocus: "1-12歳",
+    notes: "平日が比較的空きやすい",
+    lat: 1.2915,
+    lng: 103.8572
+  },
+  {
+    areaId: "singapore",
+    name: "Mount Elizabeth Hospital",
+    category: "hospital",
+    categoryLabel: "病院",
+    district: "Orchard",
+    address: "3 Mount Elizabeth",
+    description: "外国人家庭にも利用されやすい病院の候補。",
+    ageFocus: "0-15歳",
+    notes: "保険適用範囲の確認推奨",
+    lat: 1.3044,
+    lng: 103.8350
+  },
+  {
+    areaId: "london",
+    name: "Diana Memorial Playground",
+    category: "play",
+    categoryLabel: "屋内あそび場",
+    district: "Kensington",
+    address: "Kensington Gardens",
+    description: "外遊び中心ですが、年齢別に遊びやすい大人気スポット。",
+    ageFocus: "1-12歳",
+    notes: "混雑前の時間帯が快適",
+    lat: 51.5064,
+    lng: -0.1790
+  },
+  {
+    areaId: "london",
+    name: "Hyde Park",
+    category: "park",
+    categoryLabel: "公園",
+    district: "Central London",
+    address: "Hyde Park",
+    description: "広くて散歩しやすく、家族連れにも使いやすい都市公園。",
+    ageFocus: "0-12歳",
+    notes: "ピクニック向き",
+    lat: 51.5073,
+    lng: -0.1657
+  },
+  {
+    areaId: "new-york",
+    name: "Brooklyn Children's Museum",
+    category: "play",
+    categoryLabel: "屋内あそび場",
+    district: "Brooklyn",
+    address: "145 Brooklyn Ave, Brooklyn",
+    description: "体験型展示が多く、年齢別に楽しみやすい子ども向け施設。",
+    ageFocus: "1-12歳",
+    notes: "雨の日の第一候補になりやすい",
+    lat: 40.6713,
+    lng: -73.9638
+  },
+  {
+    areaId: "new-york",
+    name: "Central Park Heckscher Playground",
+    category: "park",
+    categoryLabel: "公園",
+    district: "Manhattan",
+    address: "Central Park South",
+    description: "ニューヨーク中心部で親子が過ごしやすい定番プレイグラウンド。",
+    ageFocus: "1-12歳",
+    notes: "観光と組み合わせやすい",
+    lat: 40.7699,
+    lng: -73.9817
   }
 ];

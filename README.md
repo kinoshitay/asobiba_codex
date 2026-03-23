@@ -1,6 +1,6 @@
 # Ho Chi Minh Childcare Map
 
-ホーチミンの子育て向けスポットをまとめた静的マップです。
+世界の主要都市で使える子育て向けスポットをまとめた静的マップです。初期表示はホーチミンです。
 
 ## 開き方
 
@@ -42,5 +42,5 @@ APIキーがあると、右側のパネルにピン付き地図が出ます。
 
 ## データ更新
 
-スポット一覧は `/Users/yosihikokinoshita/Documents/New project/data/places.js` にあります。
+スポット一覧とエリア定義は `/Users/yosihikokinoshita/Documents/New project/data/places.js` にあります。
 Google MCPサーバーや Places API の結果を取り込む場合も、この配列に整形すればそのまま表示できます。
