@@ -243,73 +243,66 @@
   }
 
   function clearMarkers() {
-    state.markers.forEach((marker) => marker.setMap(null));
+    state.markers.forEach((marker) => marker.remove());
     state.markers = [];
   }
 
   function renderMap(items) {
     const currentArea = getCurrentArea();
 
-    if (!window.google || !window.google.maps) {
+    if (!window.L) {
       els.mapMode.textContent = "List";
-      els.mapStatus.textContent = `${currentArea ? currentArea.shortName : "このエリア"}をリスト表示中`;
+      els.mapStatus.textContent = "地図ライブラリの読み込みに失敗しました";
       return;
     }
 
-    els.mapMode.textContent = "Google";
+    els.mapMode.textContent = "OpenStreetMap";
     els.mapStatus.textContent = `${currentArea ? currentArea.shortName : "このエリア"}で${items.length}件をピン表示`;
 
     if (!state.map) {
       els.mapCanvas.innerHTML = "";
-      state.map = new window.google.maps.Map(els.mapCanvas, {
-        center: currentArea ? currentArea.center : { lat: 10.7769, lng: 106.7009 },
-        zoom: currentArea ? currentArea.zoom : 11,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false
-      });
+      state.map = window.L.map(els.mapCanvas, {
+        zoomControl: true
+      }).setView(
+        currentArea ? [currentArea.center.lat, currentArea.center.lng] : [10.7769, 106.7009],
+        currentArea ? currentArea.zoom : 11
+      );
+
+      window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(state.map);
     }
 
     clearMarkers();
 
     if (!items.length) {
       if (currentArea) {
-        state.map.setCenter(currentArea.center);
-        state.map.setZoom(currentArea.zoom);
+        state.map.setView([currentArea.center.lat, currentArea.center.lng], currentArea.zoom);
       }
       return;
     }
 
-    const bounds = new window.google.maps.LatLngBounds();
+    const bounds = [];
     items.forEach((place) => {
-      const marker = new window.google.maps.Marker({
-        position: { lat: place.lat, lng: place.lng },
-        map: state.map,
-        title: place.name
-      });
-
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
+      const marker = window.L.marker([place.lat, place.lng]).addTo(state.map);
+      marker.bindPopup(`
           <div style="max-width:220px">
             <strong>${place.name}</strong><br />
             <span>${place.categoryLabel} / ${place.district}</span><br />
             <span>${place.address}</span>
           </div>
-        `
-      });
-
-      marker.addListener("click", () => infoWindow.open({ anchor: marker, map: state.map }));
+        `);
       state.markers.push(marker);
-      bounds.extend(marker.getPosition());
+      bounds.push([place.lat, place.lng]);
     });
 
     if (items.length === 1 && currentArea) {
-      state.map.setCenter({ lat: items[0].lat, lng: items[0].lng });
-      state.map.setZoom(Math.max(currentArea.zoom, 13));
+      state.map.setView([items[0].lat, items[0].lng], Math.max(currentArea.zoom, 13));
       return;
     }
 
-    state.map.fitBounds(bounds, 48);
+    state.map.fitBounds(bounds, { padding: [48, 48] });
   }
 
   function render() {
@@ -319,32 +312,6 @@
     renderPlaces(filteredPlaces);
     updateSummary(filteredPlaces);
     renderMap(filteredPlaces);
-  }
-
-  function loadGoogleMaps() {
-    const apiKey =
-      window.HCMC_PARENTING_MAP?.googleMapsApiKey || localStorage.getItem("googleMapsApiKey");
-    if (!apiKey) {
-      render();
-      return;
-    }
-
-    const existing = document.querySelector('script[data-google-maps="true"]');
-    if (existing) {
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&loading=async`;
-    script.async = true;
-    script.defer = true;
-    script.dataset.googleMaps = "true";
-    script.addEventListener("load", render);
-    script.addEventListener("error", () => {
-      els.mapStatus.textContent = "Google Mapsの読み込みに失敗しました";
-      render();
-    });
-    document.head.appendChild(script);
   }
 
   els.areaSelect.addEventListener("change", (event) => {
@@ -366,5 +333,4 @@
   });
 
   render();
-  loadGoogleMaps();
 })();

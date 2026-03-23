@@ -30,15 +30,9 @@
 Google Maps を本番で有効化する場合は、コード中の `localStorage` ではなく、配布前に
 `data/places.js` か別設定ファイルに安全な読み込み方法を入れるのがおすすめです。
 
-## Google Maps を有効化する方法
+## 地図表示
 
-ブラウザのコンソールで次を実行してから再読み込みします。
-
-```js
-localStorage.setItem("googleMapsApiKey", "YOUR_GOOGLE_MAPS_API_KEY");
-```
-
-APIキーがあると、右側のパネルにピン付き地図が出ます。
+地図は OpenStreetMap と Leaflet を使って表示しています。Google Maps APIキーは不要です。
 
 ## データ更新
 
