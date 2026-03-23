@@ -245,6 +245,33 @@ h2 {
 
 .place-list {
   display: grid;
+  gap: 22px;
+}
+
+.place-section {
+  display: grid;
+  gap: 14px;
+}
+
+.place-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.place-section__header h3 {
+  margin: 0;
+  font-size: 1.18rem;
+}
+
+.place-section__header span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.place-grid {
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 16px;
 }
@@ -416,7 +443,7 @@ h2 {
     border-radius: 22px;
   }
 
-  .place-list {
+  .place-grid {
     grid-template-columns: 1fr;
   }
 

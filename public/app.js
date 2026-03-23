@@ -132,7 +132,7 @@
     return score;
   }
 
-  function getFilteredPlaces() {
+  function getBaseFilteredPlaces() {
     const areaPlaces = getAreaPlaces();
     const normalized = state.query.trim().toLowerCase();
     const age = Number(state.age);
@@ -145,9 +145,8 @@
             .join(" ")
             .toLowerCase()
             .includes(normalized);
-        const matchesCategory = state.category === "all" || place.category === state.category;
         const matchesDistrict = state.district === "all" || place.district === state.district;
-        return matchesQuery && matchesCategory && matchesDistrict;
+        return matchesQuery && matchesDistrict;
       })
       .map((place) => ({
         ...place,
@@ -163,6 +162,10 @@
 
         return b.recommendationScore - a.recommendationScore;
       });
+  }
+
+  function getMapPlaces(items) {
+    return items.filter((item) => item.category === state.category);
   }
 
   function getRecommendationText(items) {
@@ -200,6 +203,33 @@
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
   }
 
+  function buildPlaceCard(place) {
+    const card = document.createElement("article");
+    const isRecommended = state.age !== "" && place.recommendationScore >= 100;
+    const googleMapsUrl = getGoogleMapsUrl(place);
+    card.className = `place-card${isRecommended ? " is-recommended" : ""}`;
+    card.innerHTML = `
+      <div class="place-card__top">
+        <div>
+          <h3>${place.name}</h3>
+          <div class="place-card__meta">
+            <span>${place.district}</span>
+            <span>${place.address}</span>
+          </div>
+        </div>
+        <span class="badge" data-category="${place.category}">${place.categoryLabel}</span>
+      </div>
+      ${isRecommended ? '<span class="recommendation-tag">この年齢におすすめ</span>' : ""}
+      <p class="place-card__description">${place.description}</p>
+      <div class="place-card__meta">
+        <span>対象: ${place.ageFocus}</span>
+        <span>メモ: ${place.notes}</span>
+      </div>
+      <a class="map-link" href="${googleMapsUrl}" target="_blank" rel="noreferrer">Google Mapsで開く</a>
+    `;
+    return card;
+  }
+
   function renderPlaces(items) {
     els.placeList.innerHTML = "";
 
@@ -212,42 +242,39 @@
       return;
     }
 
-    items.forEach((place) => {
-      const card = document.createElement("article");
-      const isRecommended = state.age !== "" && place.recommendationScore >= 100;
-      const googleMapsUrl = getGoogleMapsUrl(place);
-      card.className = `place-card${isRecommended ? " is-recommended" : ""}`;
-      card.innerHTML = `
-        <div class="place-card__top">
-          <div>
-            <h3>${place.name}</h3>
-            <div class="place-card__meta">
-              <span>${place.district}</span>
-              <span>${place.address}</span>
-            </div>
-          </div>
-          <span class="badge" data-category="${place.category}">${place.categoryLabel}</span>
+    ["play", "sightseeing"].forEach((category) => {
+      const sectionItems = items.filter((item) => item.category === category).slice(0, 8);
+      if (!sectionItems.length) {
+        return;
+      }
+
+      const section = document.createElement("section");
+      section.className = "place-section";
+      section.innerHTML = `
+        <div class="place-section__header">
+          <h3>${categoryLabels[category]}</h3>
+          <span>${sectionItems.length}件</span>
         </div>
-        ${isRecommended ? '<span class="recommendation-tag">この年齢におすすめ</span>' : ""}
-        <p class="place-card__description">${place.description}</p>
-        <div class="place-card__meta">
-          <span>対象: ${place.ageFocus}</span>
-          <span>メモ: ${place.notes}</span>
-        </div>
-        <a class="map-link" href="${googleMapsUrl}" target="_blank" rel="noreferrer">Google Mapsで開く</a>
       `;
-      els.placeList.appendChild(card);
+
+      const grid = document.createElement("div");
+      grid.className = "place-grid";
+      sectionItems.forEach((place) => {
+        grid.appendChild(buildPlaceCard(place));
+      });
+      section.appendChild(grid);
+      els.placeList.appendChild(section);
     });
   }
 
   function updateSummary(items) {
     const currentArea = getCurrentArea();
-    const categories = new Set(items.map((item) => item.category));
-    els.categoryCount.textContent = String(
-      categories.size || 1
-    );
-    els.placeCount.textContent = String(items.length);
-    els.resultSummary.textContent = `${currentArea ? currentArea.shortName : ""}で${items.length}件を表示中`;
+    const displayCount =
+      items.filter((item) => item.category === "play").slice(0, 8).length +
+      items.filter((item) => item.category === "sightseeing").slice(0, 8).length;
+    els.categoryCount.textContent = "2";
+    els.placeCount.textContent = String(displayCount);
+    els.resultSummary.textContent = `${currentArea ? currentArea.shortName : ""}で${displayCount}件を表示中`;
     els.ageRecommendation.textContent = getRecommendationText(items);
   }
 
@@ -317,10 +344,10 @@
   function render() {
     renderAreaSelect();
     renderFilters();
-    const filteredPlaces = getFilteredPlaces();
+    const filteredPlaces = getBaseFilteredPlaces();
     renderPlaces(filteredPlaces);
     updateSummary(filteredPlaces);
-    renderMap(filteredPlaces);
+    renderMap(getMapPlaces(filteredPlaces));
   }
 
   els.areaSelect.addEventListener("change", (event) => {
